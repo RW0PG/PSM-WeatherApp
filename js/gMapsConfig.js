@@ -76,6 +76,7 @@
             lat: position.coords.latitude,
             lng: position.coords.longitude
         };
+        console.log('lat', pos.lat, 'lng', pos.lng)
 
         infoWindow.setPosition(pos);
         infoWindow.setContent('Location found.');

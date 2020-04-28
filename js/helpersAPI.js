@@ -25,4 +25,23 @@ let getWeather = async (lon, lat) => {
 }
 // lon W/E
 // lat N/S
-getWeather('19.94', '50.06')
+getWeather('20.3569396', '49.5861020000000046')
+
+
+function handleMap() {
+	// Create the script tag, set the appropriate attributes
+	let apiKey = loadAPIKey('google_maps.json')
+	var script = document.createElement('script');
+	script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
+	script.defer = true;
+	script.async = true;
+
+	// Attach your callback function to the `window` object
+	window.initMap = function() {
+	// JS API is loaded and available
+	};
+
+	// Append the 'script' element to 'head'
+	document.head.appendChild(script);
+      
+}
