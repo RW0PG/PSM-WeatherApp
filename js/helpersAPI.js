@@ -14,7 +14,6 @@ async function fetchAsync (url) {
   }
 
 let getWeather = async (lon, lat) => {
-	console.log('chuj')
 	let apiKey = loadAPIKey('open_weather.json')
 	let currentWeatherURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`
 	
