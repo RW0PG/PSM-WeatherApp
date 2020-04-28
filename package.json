@@ -1,0 +1,25 @@
+{
+  "name": "psm_weather_app",
+  "version": "1.0.0",
+  "description": "stal",
+  "main": "index.js",
+  "dependencies": {
+    "node-fetch": "^2.6.0",
+    "unirest": "^0.6.0",
+    "xmlhttprequest": "^1.8.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RW0PG/PSM-WeatherApp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RW0PG/PSM-WeatherApp/issues"
+  },
+  "homepage": "https://github.com/RW0PG/PSM-WeatherApp#readme"
+}
