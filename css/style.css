@@ -24,10 +24,27 @@
   right: 16px;
 }
 
+.topLeft {
+  z-index: 1;
+  position: absolute;
+  top: 100px;
+  left: 2%;
+}
+
 .bottomRight {
   position: absolute;
   bottom: 14px;
   right: 16px;
+}
+
+#locationButton {
+  /* align-self: center; */
+  z-index: 1;
+  position: absolute;
+  bottom: 8%;
+  left: 8%;
+  width: 250px;
+  height: 70px;
 }
 
   #map {
