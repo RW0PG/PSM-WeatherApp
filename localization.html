@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"> 
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="manifest" href="/manifest.json">
+    <title>Localization</title>
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+  </head>
+
+  <body>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <div id="map" onload="initAutocomplete()"></div>
+    <script type="text/javascript" src="js/gMapsConfig.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initAutocomplete"async defer></script>
+  </body>
+</html>
