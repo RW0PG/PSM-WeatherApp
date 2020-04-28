@@ -5,54 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="manifest" href="/manifest.json">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-firestore.js"></script>
     <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
-    <link type="text/css" rel="stylesheet" href="css/style.css">
-    <title>WeatherAPP</title>
+    <!--<link rel="stylesheet" type="text/css" href="css/style.css">-->
+    <title>Authentication</title>
   </head>
-
-  <body class="places">
-
-    <div class="topRight">
-      <a href="authentication.html">
-        <button id="btnLogin" class="btn btn-primary" href="authentication.html">Login</button>
-      </a>
-      <button id="btnLogout" class="btn btn-secondary">Logout</button>
+  
+  <body class="auth" onload="login()">
+    <div class="names">
+      <h1>PSM-WeatherAPP</h1>
     </div>
-
-    <h1>Places</h1>
-
-    <div class="bottomRight">
-      <a href="localization.html">
-        <img src="images/plus-button.png" style="width: 50px; height: 50px;">
-      </a>
-    </div>
-
-    <div class="card bg-dark text-white">
-        <h5 class="card-title">Gorzyce</h5>
-        <p class="card-text">Jakieś randomowe cardsy, z których nie wiem jeszcze jak zrobić to co chcemy</p>
-        <p class="card-text">Trzeba to jakoś wykminić żeby to tylko pojawiało się dopiero po dodaniu pogody</p>
-    </div>
-    <br>
-    <!--tymczasowe rozwiązanie-->
-    <div class="card bg-dark text-white">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      <p class="card-text">Last updated 3 mins ago</p>
-    </div>
-    <br>
-    <div class="card bg-dark text-white">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      <p class="card-text">Last updated 3 mins ago</p>
+    <div class="login">
+        <h3>Choose your login method</h3>
+        <div id="firebaseui-auth-container"></div>
     </div>
     
-
-
-
     <script type="text/javascript" src="js/firebaseConfig.js"></script>
     <script type="text/javascript" src="js/firebaseAuth.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

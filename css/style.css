@@ -1,21 +1,31 @@
-body {
-    font-family: sans-serif;
-  }
-  
-  html,
-  .fullscreen {
-    display: flex;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-  }
+.auth {
+  background-image: url('https://openweathermap.org/themes/openweathermap/assets/img/Open-weather-main-page.png');
+  background-attachment: fixed;
+  background-size: cover;
+}
 
-  .container {
-    margin: auto;
-    text-align: center;
-  }
-  
-  .title {
-    font-size: 3rem;
-  }
+.names {
+  text-align: center;
+}
+
+.login {
+  text-align: center;
+  margin-top: 257px;
+}
+
+.places {
+  color: white;
+  background-color:rgb(32,32,32);
+}
+
+.topRight {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
+
+.bottomRight {
+  position: absolute;
+  bottom: 14px;
+  right: 16px;
+}
