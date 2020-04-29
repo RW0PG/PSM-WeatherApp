@@ -10,8 +10,6 @@
   };
   firebase.initializeApp(firebaseConfig);
   */
-
-
   
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
