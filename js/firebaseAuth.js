@@ -1,3 +1,4 @@
+
   var ui = new firebaseui.auth.AuthUI(firebase.auth())
   var uiConfig = {
       callbacks: {
@@ -20,13 +21,16 @@
       ],
     };
 
-  ui.start('#firebaseui-auth-container', uiConfig);
+ui.start('#firebaseui-auth-container', uiConfig);
+
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
 
 const logout = document.getElementById('btnLogout')
 logout.addEventListener('click', (e) => {
   //e.preventDefault()
   firebase.auth().signOut()
   console.log("logged out")
+  window.location.replace("authentication.html")
 })
 
 firebase.auth().onAuthStateChanged(user => {
@@ -36,6 +40,7 @@ firebase.auth().onAuthStateChanged(user => {
   } else {
     document.getElementById("btnLogout").hidden = true;
     document.getElementById("btnLogin").hidden = false;
+    document.getElementById("plus-button").hidden = true;
   }
 })
 
