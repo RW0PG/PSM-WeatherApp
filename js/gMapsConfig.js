@@ -1,4 +1,3 @@
-
     function initAutocomplete() {
     var map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: -33.8688, lng: 151.2195},
@@ -21,7 +20,7 @@
     // more details for that place.
     searchBox.addListener('places_changed', function() {
         var places = searchBox.getPlaces();
-
+        
         if (places.length == 0) {
         return;
         }
@@ -61,6 +60,10 @@
         } else {
             bounds.extend(place.geometry.location);
         }
+        let weather = getWeather(place.geometry.location.lng(), place.geometry.location.lat())
+
+
+
         });
         map.fitBounds(bounds);
     });
