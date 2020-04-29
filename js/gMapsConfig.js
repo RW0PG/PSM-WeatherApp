@@ -1,5 +1,7 @@
-    function initAutocomplete() {
-    var map = new google.maps.Map(document.getElementById('map'), {
+var map;
+
+function initAutocomplete() {
+    map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: -33.8688, lng: 151.2195},
         zoom: 13,
         mapTypeId: 'roadmap'
@@ -65,6 +67,9 @@
 
 
         });
+
+        
+
         map.fitBounds(bounds);
     });
 
@@ -100,4 +105,33 @@
                             'Error: The Geolocation service failed.' :
                             'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
+
 }
+
+function addLocation(){
+
+    let form = document.getElementById('locationButton');
+
+    lat = map.getCenter().lat()
+    lon = map.getCenter().lng()
+
+    firebase.auth().onAuthStateChanged(user => {
+
+        if(user.uid) {
+            db.collection("favorite_locations")
+                .add({latitude: lat, longitude:lon, userId: user.uid})
+                .then(function() {
+                console.log("Document successfully written ");
+            })
+            .catch(function(error) {
+                console.error("Error writing document: ", error);
+            });
+        } else {
+            console.log("User not logged in");  
+        }
+        })
+    
+        
+    window.location.replace('./index.html')
+}
+
