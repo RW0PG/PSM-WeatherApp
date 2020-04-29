@@ -1,49 +1,41 @@
-//login
-function login() {
-    var ui = new firebaseui.auth.AuthUI(firebase.auth());
-    var uiConfig = {
-        callbacks: {
-          signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-            return true;
-          },
-          uiShown: function() {
-            document.getElementById('loader').style.display = 'none';
-          }
+  var ui = new firebaseui.auth.AuthUI(firebase.auth())
+  var uiConfig = {
+      callbacks: {
+        signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+          return true;
         },
-        signInFlow: 'popup',
-        signInSuccessUrl: 'index.html',
-        signInOptions: [
-          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-          firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-          firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-          firebase.auth.GithubAuthProvider.PROVIDER_ID,
-          firebase.auth.EmailAuthProvider.PROVIDER_ID,
-          //firebase.auth.PhoneAuthProvider.PROVIDER_ID
-        ],
-      };
+        uiShown: function() {
+          document.getElementById('loader').style.display = 'none';
+        }
+      },
+      signInFlow: 'popup',
+      signInSuccessUrl: 'index.html',
+      signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+        firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+        firebase.auth.GithubAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        //firebase.auth.PhoneAuthProvider.PROVIDER_ID
+      ],
+    };
 
-      ui.start('#firebaseui-auth-container', uiConfig);
-}
+  ui.start('#firebaseui-auth-container', uiConfig);
 
-
-var btnLogout = document.getElementById('btnLogout')
-btnLogout.addEventListener('click', e => {
+const logout = document.getElementById('btnLogout')
+logout.addEventListener('click', (e) => {
+  //e.preventDefault()
   firebase.auth().signOut()
-  alert('succesfully signed out')
-  window.location.replace("authentication.html")
+  console.log("logged out")
 })
 
 firebase.auth().onAuthStateChanged(user => {
   if(user) {
-    document.getElementById("btnLogout").disabled = false;
-    document.getElementById("btnLogin").disabled = true;
+    document.getElementById("btnLogout").hidden = false;
+    document.getElementById("btnLogin").hidden= true;
   } else {
-    document.getElementById("btnLogout").disabled = true;
-    document.getElementById("btnLogin").disabled = false;
+    document.getElementById("btnLogout").hidden = true;
+    document.getElementById("btnLogin").hidden = false;
   }
 })
-
-
-
-
 
