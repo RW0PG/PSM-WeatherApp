@@ -104,7 +104,7 @@ let getWeather = async (lon, lat) => {
 	let resp = await fetch(currentWeatherURL)
 					.then(res => res.json())
 					.catch(er => console.log(er))
-	console.log(resp)
+    return resp
 }
 
 function addLocation(){
@@ -137,36 +137,118 @@ function addLocation(){
 var firebaseLat
 var firebaseLon
 
+let weathers = []
 function getLocation() {
 
+
     firebase.auth().onAuthStateChanged(user => {
+        
         if(user) {
             db.collection("favorite_locations").where("userId", "==", user.uid)
             .get()
-            .then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
+            .then(querySnapshot => {
+                querySnapshot.forEach(async (doc) => {
                     //console.log(doc.id, " => ", doc.data());
                     firebaseLat = doc.data().latitude
                     firebaseLon = doc.data().longitude
-                    var weather = getWeather(firebaseLon, firebaseLat)
-                    return weather
-                })}).then((e) => {
-                    console.log('dupa', e)
-                    console.log('cycki', weather)
-                    document.querySelector('#places').innerHTML = document.querySelector('#places').innerHTML + `<br>` + `
-                    <div class="card bg-dark text-white">
-                        <h5 class="card-title">`+ firebaseLat + `</h5>
-                        <p class="card-text">Jakieś randomowe cardsy, trzeba by zrobic conditional rendering z reacta</p>
-                        <p class="card-text">Trzeba to jakoś wykminić żeby to tylko pojawiało się dopiero po dodaniu pogody</p>
-                    </div>
-                `
+                    weathers.push(getWeather(firebaseLon, firebaseLat))
                 })
+                return Promise.all(weathers).then(function(values) {
+                    let alreadyPresent = []
+                    let filtered = values.filter((value) => {
+                        if (alreadyPresent.indexOf(value.city.id) == -1) {
+                            alreadyPresent.push(value.city.id)
+                            return true
+                        } else {
+                            return false
+                        }                    
+                    })
+                    return filtered
+                  });
+            })
+            .then((weathers) => {
+                weathers.map(injectWeather)
+            })
             .catch(function(error) {
                 console.log("Error getting documents: ", error);
             })
         }
+        
     })
 }
 
+function injectWeather(weather) {
+    let city = weather.city.name
+    let cityId = weather.city.id
+    document.querySelector('#places').innerHTML = document.querySelector('#places').innerHTML + `<br>` + `
+    <div class="card bg-dark text-white" onclick=getDetails(`+cityId+`)>
+         <h5 class="card-title">`+ city + `</h5>
+         <p class="card-text">Jakieś randomowe cardsy, trzeba by zrobic conditional rendering z reacta</p>
+         <p class="card-text">Trzeba to jakoś wykminić żeby to tylko pojawiało się dopiero po dodaniu pogody</p>
+     </div>`
+}
 
+function injectDetails(weather) {
 
+}
+
+var currentCity;
+
+function getDetails(cityId) {
+    console.log('asdasd')
+    window.location.replace('./details.html?cityId='+cityId)
+}
+
+function showDetails() {
+    firebase.auth().onAuthStateChanged(user => {
+        
+        if(user) {
+            db.collection("favorite_locations").where("userId", "==", user.uid)
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.forEach(async (doc) => {
+                    //console.log(doc.id, " => ", doc.data());
+                    firebaseLat = doc.data().latitude
+                    firebaseLon = doc.data().longitude
+                    weathers.push(getWeather(firebaseLon, firebaseLat))
+                })
+                return Promise.all(weathers).then(function(values) {
+                    let alreadyPresent = []
+                    let filtered = values.filter((value) => {
+                        if (alreadyPresent.indexOf(value.city.id) == -1) {
+                            alreadyPresent.push(value.city.id)
+                            return true
+                        } else {
+                            return false
+                        }                    
+                    })
+                    return filtered
+                  });
+            })
+            .then((weathers) => {
+                weathers.filter((weather) => {
+                    console.log(window.location.search.split('=')[1])
+                    currentCity = window.location.search.split('=')[1]
+                    // console.log('1', weather.city.id)
+                    // console.log('2', currentCity)
+                    if (weather.city.id == currentCity) {
+                        
+                        console.log(weather)
+
+                        document.querySelector('#places').innerHTML = document.querySelector('#places').innerHTML + `<br>` + `
+                        <div class="card bg-dark text-white">
+                            <h5 class="card-title">`+ weather.city.name + `</h5>
+                            <p class="card-text">Jakieś randomowe cardsy, trzeba by zrobic conditional rendering z reacta</p>
+                            <p class="card-text">Trzeba to jakoś wykminić żeby to tylko pojawiało się dopiero po dodaniu pogody</p>
+                        </div>`
+                        console.log(weather.city.name)
+                    }
+                })
+            })
+            .catch(function(error) {
+                console.log("Error getting documents: ", error);
+            })
+        }
+        
+    })
+}
