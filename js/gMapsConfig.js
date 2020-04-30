@@ -97,7 +97,7 @@ function initAutocomplete() {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
-    }
+}
 
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos);
@@ -106,7 +106,7 @@ function initAutocomplete() {
                             'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
 
-}
+    }
 
 function addLocation(){
 
@@ -122,6 +122,8 @@ function addLocation(){
                 .add({latitude: lat, longitude:lon, userId: user.uid})
                 .then(function() {
                 console.log("Document successfully written ");
+                alert('Location added succesfully');
+                window.location.replace('./index.html');
             })
             .catch(function(error) {
                 console.error("Error writing document: ", error);
@@ -131,7 +133,5 @@ function addLocation(){
         }
         })
     
-        
-    window.location.replace('./index.html')
 }
 
