@@ -2,6 +2,7 @@
   background-image: url('https://openweathermap.org/themes/openweathermap/assets/img/Open-weather-main-page.png');
   background-attachment: fixed;
   background-size: cover;
+  overflow: hidden;
 }
 
 .names {
