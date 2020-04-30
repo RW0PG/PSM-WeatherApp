@@ -63,13 +63,7 @@ function initAutocomplete() {
             bounds.extend(place.geometry.location);
         }
         let weather = getWeather(place.geometry.location.lng(), place.geometry.location.lat())
-
-
-
         });
-
-        
-
         map.fitBounds(bounds);
     });
 
@@ -85,7 +79,6 @@ function initAutocomplete() {
             lng: position.coords.longitude
         };
         console.log('lat', pos.lat, 'lng', pos.lng)
-
         infoWindow.setPosition(pos);
         infoWindow.setContent('Location found.');
         infoWindow.open(map);
@@ -99,14 +92,20 @@ function initAutocomplete() {
     }
 }
 
-    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-                            'Error: The Geolocation service failed.' :
-                            'Error: Your browser doesn\'t support geolocation.');
+    infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
+}
 
-    }
+let getWeather = async (lon, lat) => {
+	let currentWeatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=b03accfd92a0ca5f70a918b8f9b725b4`
+	
+	let resp = await fetch(currentWeatherURL)
+					.then(res => res.json())
+					.catch(er => console.log(er))
+	console.log(resp)
+}
 
 function addLocation(){
 
@@ -134,4 +133,40 @@ function addLocation(){
         })
     
 }
+
+var firebaseLat
+var firebaseLon
+
+function getLocation() {
+
+    firebase.auth().onAuthStateChanged(user => {
+        if(user) {
+            db.collection("favorite_locations").where("userId", "==", user.uid)
+            .get()
+            .then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    //console.log(doc.id, " => ", doc.data());
+                    firebaseLat = doc.data().latitude
+                    firebaseLon = doc.data().longitude
+                    var weather = getWeather(firebaseLon, firebaseLat)
+                    return weather
+                })}).then((e) => {
+                    console.log('dupa', e)
+                    console.log('cycki', weather)
+                    document.querySelector('#places').innerHTML = document.querySelector('#places').innerHTML + `<br>` + `
+                    <div class="card bg-dark text-white">
+                        <h5 class="card-title">`+ firebaseLat + `</h5>
+                        <p class="card-text">Jakieś randomowe cardsy, trzeba by zrobic conditional rendering z reacta</p>
+                        <p class="card-text">Trzeba to jakoś wykminić żeby to tylko pojawiało się dopiero po dodaniu pogody</p>
+                    </div>
+                `
+                })
+            .catch(function(error) {
+                console.log("Error getting documents: ", error);
+            })
+        }
+    })
+}
+
+
 

@@ -10,7 +10,7 @@
     <title>WeatherAPP</title>
   </head>
 
-  <body class="places">
+  <body class="places" onload="getLocation()">
 
     <div class="topRight">
       <a href="authentication.html">
@@ -21,32 +21,13 @@
 
     <h1>Places</h1>
 
+    <div id="places"></div>
+
     <div class="bottomRight">
       <a href="localization.html">
         <img src="images/plus-button.png" style="width: 50px; height: 50px;">
       </a>
     </div>
-    
-    <div class="card bg-dark text-white">
-        <h5 class="card-title">Gorzyce</h5>
-        <p class="card-text">Jakieś randomowe cardsy, trzeba by zrobic conditional rendering z reacta</p>
-        <p class="card-text">Trzeba to jakoś wykminić żeby to tylko pojawiało się dopiero po dodaniu pogody</p>
-    </div>
-    <br>
-    <!--tymczasowe rozwiązanie-->
-    <div class="card bg-dark text-white">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      <p class="card-text">Last updated 3 mins ago</p>
-    </div>
-    <br>
-    <div class="card bg-dark text-white">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      <p class="card-text">Last updated 3 mins ago</p>
-    </div>
-    
-
 
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
@@ -54,6 +35,8 @@
     <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
     <script type="text/javascript" src="js/firebaseConfig.js"></script>
     <script type="text/javascript" src="js/logout.js"></script>
+    <script type="text/javascript" src="js/gMapsConfig.js"></script>
+    <!-- <script type="text/javascript" src="js/rendering.js"></script> -->
     <!-- <script type="text/javascript" src="js/firebaseAuth.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
