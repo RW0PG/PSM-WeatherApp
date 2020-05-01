@@ -191,7 +191,7 @@ function injectWeather(weather) {
     <div class="card bg-dark text-white" onclick=getDetails(`+cityId+`)>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-8">
+                <div class="col-sm-6">
                     <h5 class="card-title">`+city+`</h5>
                     <p id="time">(`+datetime+`)</p>
                     <p class="card-text-ls">`+cityTemp+'°C' + `</p>
