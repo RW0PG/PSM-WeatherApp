@@ -13,7 +13,8 @@ const assets = [
   "/js/gMapsConfig.js",
   "/js/logout.js",
   "/images/back-arrow.png",
-  "/images/plus-button.png"
+  "/images/plus-button.png",
+  "/images/x-button.png"
 ]
 
 self.addEventListener("install", installEvent => {

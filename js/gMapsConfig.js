@@ -99,7 +99,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 let getWeather = async (lon, lat) => {
-	let currentWeatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=b03accfd92a0ca5f70a918b8f9b725b4`
+	let currentWeatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=b03accfd92a0ca5f70a918b8f9b725b4`
 	
 	let resp = await fetch(currentWeatherURL)
 					.then(res => res.json())
@@ -180,14 +180,28 @@ function getLocation() {
 function injectWeather(weather) {
     let city = weather.city.name
     let cityId = weather.city.id
+    let cityTemp = Math.round(weather.list[0].main.temp)
+    Date.prototype.timeNow = function () {
+        return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes()
+    }
+    var datetime = new Date().timeNow();
+    let iconCode = weather.list[0].weather[0].icon
+    let iconUrl = `<img src="images/weather-icons/`+iconCode+`.png"id="weatherImg">`
+    //"http://openweathermap.org/img/w/" + iconCode + ".png";
     document.querySelector('#places').innerHTML = document.querySelector('#places').innerHTML + `<br>` + `
     <div class="card bg-dark text-white" onclick=getDetails(`+cityId+`)>
-         <h5 class="card-title">`+ city + `</h5>
-         <p class="card-text">Jakieś randomowe cardsy, trzeba by zrobic conditional rendering z reacta</p>
-         <p class="card-text">Trzeba to jakoś wykminić żeby to tylko pojawiało się dopiero po dodaniu pogody</p>
-     </div>`
+            <h5 class="card-title">`+ city + `</h5>
+            <p class="card-text-ls">`+ cityTemp + '°C' + `</p>
+            <div class="card-text-rs">
+                `+iconUrl+`<br>
+                <p id="time">`+datetime+`</p>
+            </div>
+        <img src="images/x-button.png" id="x-button">
+     </div> 
+    ` 
 }
 
+//         <img src=`+iconUrl+` id="weatherImg">
 function injectDetails(weather) {
 
 }
@@ -232,9 +246,7 @@ function showDetails() {
                     // console.log('1', weather.city.id)
                     // console.log('2', currentCity)
                     if (weather.city.id == currentCity) {
-                        
                         console.log(weather)
-
                         document.querySelector('#places').innerHTML = document.querySelector('#places').innerHTML + `<br>` + `
                         <div class="card bg-dark text-white">
                             <h5 class="card-title">`+ weather.city.name + `</h5>
