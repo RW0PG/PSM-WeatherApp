@@ -2,7 +2,7 @@ var map;
 
 function initAutocomplete() {
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -33.8688, lng: 151.2195},
+        center: {lat: 50.0647, lng: 19.9450},
         zoom: 13,
         mapTypeId: 'roadmap'
     });
@@ -99,11 +99,13 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 let getWeather = async (lon, lat) => {
-	let currentWeatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=b03accfd92a0ca5f70a918b8f9b725b4`
+	let currentWeatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=b03accfd92a0ca5f70a918b8f9b725b4`
 	
 	let resp = await fetch(currentWeatherURL)
 					.then(res => res.json())
-					.catch(er => console.log(er))
+                    .catch(er => console.log(er))
+    resp['lat'] = lat
+    resp['lon'] = lon
     return resp
 }
 
@@ -178,24 +180,70 @@ function getLocation() {
 }
 
 function injectWeather(weather) {
+    let cityLat = weather.lat
+    let cityLon = weather.lon
     let city = weather.city.name
     let cityId = weather.city.id
+    let cityTemp = Math.round(weather.list[0].main.temp)
+    Date.prototype.timeNow = function () {
+        return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes()
+    }
+    let rmArgs = [cityLat, cityLon]
+    var datetime = new Date().timeNow();
+    let iconCode = weather.list[0].weather[0].icon
+    let iconUrl = `<img src="images/weather-icons/`+iconCode+`.png"id="weatherImg">`
     document.querySelector('#places').innerHTML = document.querySelector('#places').innerHTML + `<br>` + `
     <div class="card bg-dark text-white" onclick=getDetails(`+cityId+`)>
-         <h5 class="card-title">`+ city + `</h5>
-         <p class="card-text">Jakieś randomowe cardsy, trzeba by zrobic conditional rendering z reacta</p>
-         <p class="card-text">Trzeba to jakoś wykminić żeby to tylko pojawiało się dopiero po dodaniu pogody</p>
-     </div>`
+            <h5 class="card-title">`+ city + `</h5>
+            <p class="card-text-ls">`+ cityTemp + '°C' + `</p>
+            <div class="card-text-rs">
+                `+iconUrl+`<br>
+                <p id="time">`+datetime+`</p>
+            </div>
+        <img src="images/x-button.png" id="x-button">
+     </div> 
+    ` 
 }
 
-function injectDetails(weather) {
+async function rmDoc(doc) {
+    await doc.ref.delete().then(() => {
+        console.log('Done')
+    })
+}
 
+function removeLocation(cityLat, cityLon) {
+    firebase.auth().onAuthStateChanged(user => {
+        if(user) {
+            db.collection("favorite_locations")
+            .where("userId", "==", user.uid)
+            .where("latitude", "==", cityLat) 
+            .where("longitude", "==", cityLon)
+            .get()
+            .then(querySnapshot => {
+                
+                querySnapshot.forEach(async (doc) => {
+                    if (doc.data().latitude == cityLat && doc.data().longitude == cityLon) {
+                        await rmDoc(doc)
+                        await new Promise(r => setTimeout(r, 1)).then(function() {
+                            window.location.reload()
+                        })
+                    }
+                })
+            })
+            .then(function() {
+                console.log("Document successfully deleted!")
+            })
+            .catch(function(error) {
+                console.log("Error deleting documents: ", error);
+            })
+        }
+    })
+    
 }
 
 var currentCity;
 
 function getDetails(cityId) {
-    console.log('asdasd')
     window.location.replace('./details.html?cityId='+cityId)
 }
 
@@ -207,7 +255,6 @@ function showDetails() {
             .get()
             .then(querySnapshot => {
                 querySnapshot.forEach(async (doc) => {
-                    //console.log(doc.id, " => ", doc.data());
                     firebaseLat = doc.data().latitude
                     firebaseLon = doc.data().longitude
                     weathers.push(getWeather(firebaseLon, firebaseLat))
@@ -227,21 +274,14 @@ function showDetails() {
             })
             .then((weathers) => {
                 weathers.filter((weather) => {
-                    console.log(window.location.search.split('=')[1])
                     currentCity = window.location.search.split('=')[1]
-                    // console.log('1', weather.city.id)
-                    // console.log('2', currentCity)
                     if (weather.city.id == currentCity) {
-                        
-                        console.log(weather)
-
                         document.querySelector('#places').innerHTML = document.querySelector('#places').innerHTML + `<br>` + `
                         <div class="card bg-dark text-white">
                             <h5 class="card-title">`+ weather.city.name + `</h5>
                             <p class="card-text">Jakieś randomowe cardsy, trzeba by zrobic conditional rendering z reacta</p>
                             <p class="card-text">Trzeba to jakoś wykminić żeby to tylko pojawiało się dopiero po dodaniu pogody</p>
                         </div>`
-                        console.log(weather.city.name)
                     }
                 })
             })

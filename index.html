@@ -14,21 +14,26 @@
   <body class="places" onload="getLocation()">
 
     <div class="topRight">
+      <a href="localization.html">
+        <img src="images/plus-button.png" id="plus-button" style="width: 50px; height: 50px;">
+      </a>
       <a href="authentication.html">
-        <button id="btnLogin" class="btn btn-primary" href="authentication.html">Login</button>
+        <button id="btnLogin" class="btn btn-secondary" href="authentication.html">Login</button>
       </a>
       <button id="btnLogout" class="btn btn-secondary">Logout</button>
     </div>
 
-    <h1>Places</h1>
-
-    <div id="places"></div>
-
-    <div class="bottomRight">
-      <a href="localization.html">
-        <img src="images/plus-button.png" style="width: 50px; height: 50px;">
-      </a>
+    <h1 id="placesHeader">Places</h1>
+    
+    <div id="places">
+      
     </div>
+
+    
+
+
+
+
 
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
