@@ -187,21 +187,24 @@ function injectWeather(weather) {
     var datetime = new Date().timeNow();
     let iconCode = weather.list[0].weather[0].icon
     let iconUrl = `<img src="images/weather-icons/`+iconCode+`.png"id="weatherImg">`
-    //"http://openweathermap.org/img/w/" + iconCode + ".png";
     document.querySelector('#places').innerHTML = document.querySelector('#places').innerHTML + `<br>` + `
     <div class="card bg-dark text-white" onclick=getDetails(`+cityId+`)>
-            <h5 class="card-title">`+ city + `</h5>
-            <p class="card-text-ls">`+ cityTemp + '°C' + `</p>
-            <div class="card-text-rs">
-                `+iconUrl+`<br>
-                <p id="time">`+datetime+`</p>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h5 class="card-title">`+city+`</h5>
+                    <p id="time">(`+datetime+`)</p>
+                    <p class="card-text-ls">`+cityTemp+'°C' + `</p>
+                </div>
+                <div class="col-sm-4">
+                    `+iconUrl+`<br>
+                </div>
+                <img src="images/x-button.png" id="x-button">
             </div>
-        <img src="images/x-button.png" id="x-button">
      </div> 
     ` 
 }
 
-//         <img src=`+iconUrl+` id="weatherImg">
 function injectDetails(weather) {
 
 }
