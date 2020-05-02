@@ -4,7 +4,7 @@ logout.addEventListener('click', (e) => {
     //e.preventDefault()
     firebase.auth().signOut()
     console.log("logged out")
-    window.location.replace("authentication.html")
+    window.location.replace("index.html")
 })
 
 firebase.auth().onAuthStateChanged(user => {

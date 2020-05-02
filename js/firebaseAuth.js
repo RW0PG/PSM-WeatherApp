@@ -10,7 +10,7 @@
         }
       },
       signInFlow: 'popup',
-      signInSuccessUrl: 'index.html',
+      signInSuccessUrl: 'mainPage.html',
       signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
         firebase.auth.FacebookAuthProvider.PROVIDER_ID,

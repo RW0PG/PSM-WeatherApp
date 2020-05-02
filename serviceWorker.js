@@ -2,10 +2,10 @@ const staticWeatherApp = "psm-weather-app-v1"
 
 const assets = [
   "/",
-  "/authentication.html",
+  "/index.html",
   "/details.html",
   "/localization.html",
-  "/index.html",
+  "/mainPage.html",
   "/css/style.css",
   "/js/index.js",
   "/js/firebaseAuth.js",

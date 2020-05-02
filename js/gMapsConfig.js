@@ -124,7 +124,7 @@ function addLocation(){
                 .then(function() {
                 console.log("Document successfully written ");
                 alert('Location added succesfully');
-                window.location.replace('./index.html');
+                window.location.replace('./mainPage.html');
             })
             .catch(function(error) {
                 console.error("Error writing document: ", error);
