@@ -283,12 +283,220 @@ function showDetails() {
                 weathers.filter((weather) => {
                     currentCity = window.location.search.split('=')[1]
                     if (weather.city.id == currentCity) {
-                        document.querySelector('#places').innerHTML = document.querySelector('#places').innerHTML + `<br>` + `
-                        <div class="card bg-dark text-white">
-                            <h5 class="card-title">`+ weather.city.name + `</h5>
-                            <p class="card-text">Jakieś randomowe cardsy, trzeba by zrobic conditional rendering z reacta</p>
-                            <p class="card-text">Trzeba to jakoś wykminić żeby to tylko pojawiało się dopiero po dodaniu pogody</p>
-                        </div>`
+
+                        Date.prototype.timeNow = function () {
+                            return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes()
+                        }
+
+                        let data = new Date();
+                        let datetime = data.timeNow();
+                        let currentDate = data.toJSON().slice(0,10).replace(/-/g,'/');
+                        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                        let day = days[data.getDay()];
+                        let twoDayMore = () => {
+                            if (data.getDay() > 5) { return days[(data.getDay()+2) - 7]; }
+                            else { return days[data.getDay()+2]}
+                        }
+
+                        let currentTemperature = Math.round(weather.list[0].main.temp)
+                        let humidityValue = weather.list[0].main.humidity;
+                        let pressureValue = weather.list[0].main.pressure;
+                        let windSpeed = Math.round(weather.list[0].wind.speed);
+                        let weatherIconCurrent = weather.list[0].weather[0].icon;
+
+                        let sunset = () => {
+                            let sunsetTime = new Date(weather.city.sunset * 1000);
+                            return sunsetTime.timeNow();
+                        }
+
+
+                        let nightTemperature = () => {
+                            let currentHour;
+                            let counter = 0;
+                            let night = [];
+                            while (night.length < 1){
+                                currentHour = weather.list[counter].dt_txt.substring(11,13);
+                                if(currentHour == '00'){
+                                    night.push(Math.round(weather.list[counter].main.temp));
+                                    night.push(Math.round(weather.list[counter+8].main.temp));
+                                    night.push(Math.round(weather.list[counter+16].main.temp));
+                                }
+                                counter++;
+                            }
+                            return night;
+                        }
+                        let nightTemp = nightTemperature();
+
+                        let nextDayTemp = () => {
+                            let currentHour;
+                            let counter = 0;
+                            let hours = [];
+                            while (hours.length < 1){
+                                currentHour = weather.list[counter].dt_txt.substring(11,13);
+                                if(currentHour == '12'){
+                                    hours.push(counter);
+                                    hours.push(counter+8);
+                                    hours.push(counter+16);
+                                }
+                                counter++;
+                            }
+                            if (weather.list[0].dt_txt.substring(11,13)  <= '12') {
+                                hours.shift();
+                            } else {
+                                hours.pop();
+                            }
+                            return hours;
+                        }
+                        let nextDayHours = nextDayTemp();
+                        let tempTommorow = Math.round(weather.list[nextDayHours[0]].main.temp);
+                        let iconTommorow= weather.list[nextDayHours[0]].weather[0].icon;
+                        let tempTwoDay = Math.round(weather.list[nextDayHours[1]].main.temp);
+                        let iconTwoDay = weather.list[nextDayHours[1]].weather[0].icon;
+                        document.querySelector('#details').innerHTML = document.querySelector('#details').innerHTML + `
+                        <div class="container-fluid">
+                            <div class="col mx-auto">
+                                <div class="text-center">
+                                    <h1 id="placeId">` + weather.city.name + `</h1>
+                                </div>     
+                            </div><br><br>
+                        </div>
+                        <div class="container-fluid">
+                            <p1 class="dateSpecific">Time: ` + datetime + `</p1><br>
+                            <p1 class="dateSpecific">Date: ` + currentDate + `</p1>
+                        </div>
+                        <div class="container-fluid">
+                            <div id="mainCardDetails" class="card bg-dark">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img class= "weatherIconSizeFromApi" src="images/weather-icons/` + weatherIconCurrent + `.png">
+                                    </div>
+                                    <div class="col-7">
+                                        <p class="dayOfWeek"> ` + day + ` </p>
+                                    </div>
+                                    <div class="col-3">
+                                        <p class="detailsTemperature"><span class="nightTemperature">(`+ nightTemp[0] +`°) </span>` + currentTemperature + `<span class="celciusTemperature">°C</span></p>
+                                    </div>
+                                </div>
+                                <div class="row" id="WeatherImages">
+                                    <div class="col mx-auto">
+                                        <div class="text-center">
+                                            <img class= "weatherIconSize" src="images/weather-icons/rain_chance.png">
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                    <div class="col mx-auto" >
+                                        <div class="text-center">
+                                            <img class= "weatherIconSize" src="images/weather-icons/humidity.png">
+                                        </div>
+                                    </div>
+                                    <div class="col mx-auto">
+                                        <div class="text-center">
+                                            <img class= "weatherIconSize" src="images/weather-icons/wind.png">
+                                        </div>
+                                    </div>
+                                    <div class="col mx-auto">
+                                        <div class="text-center">
+                                            <img class= "weatherIconSize" src="images/weather-icons/sunset.png">
+                                        </div>
+                                    </div>
+                                    <div class="col mx-auto">
+                                        <div class="text-center">
+                                            <img class= "weatherIconSize" src="images/weather-icons/pressure.png">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col mx-auto">
+                                        <div class="text-center">
+                                            <p class="weatherIconText">Rain chance</p>
+                                        </div>
+                                    </div>
+                                    <div class="col mx-auto">
+                                        <div class="text-center">
+                                            <p class="weatherIconText">Humidity</p>
+                                        </div>
+                                    </div>
+                                    <div class="col mx-auto">
+                                        <div class="text-center">
+                                            <p class="weatherIconText">Wind speed</p>
+                                        </div>
+                                    </div>
+                                    <div class="col mx-auto">
+                                        <div class="text-center">
+                                            <p class="weatherIconText">Sunset</p>
+                                        </div>
+                                    </div>
+                                    <div class="col mx-auto">
+                                        <div class="text-center">
+                                            <p class="weatherIconText">Pressure</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col mx-auto text-center">
+                                        <div class="text-center">
+                                            <p class="weatherIconTextValue">`+ windSpeed +`%</p>
+                                        </div>
+                                    </div>
+                                    <div class="col mx-auto text-center">
+                                        <div class="text-center">
+                                            <p class="weatherIconTextValue">`+ humidityValue +`%</p>
+                                        </div>
+                                    </div>
+                                    <div class="col mx-auto text-center">
+                                        <div class="text-center">
+                                            <p class="weatherIconTextValue"> `+ windSpeed +`km/h</p>
+                                        </div>
+                                    </div>
+                                    <div class="col mx-auto text-center">
+                                        <div class="text-center">
+                                            <p class="weatherIconTextValue">` + sunset() + `</p>
+                                        </div>
+                                    </div>
+                                    <div class="col mx-auto text-center">
+                                        <div class="text-center">
+                                            <p class="weatherIconTextValue">`+ pressureValue +`hPa</p>
+                                        </div>
+                                    </div>
+                                    <hr class="line">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div id="mainCardDetails" class="card bg-dark">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img class= "weatherIconSizeFromApi" src="images/weather-icons/`+  iconTommorow + `.png">
+                                    </div>
+                                    <div class="col-7">
+                                        <p class="dayOfWeek">Tomorrow</p>
+                                    </div>
+                                    <div class="col-3">
+                                        <p class="detailsTemperature"><span class="nightTemperature">(`+ nightTemp[1] +`°) </span>` + tempTommorow + `<span class="celciusTemperature">°C</span></p>
+                                    </div>
+                                    <hr class="line">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div id="mainCardDetails" class="card bg-dark">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img class= "weatherIconSizeFromApi" src="images/weather-icons/`+  iconTwoDay + `.png">
+                                    </div>
+                                    <div class="col-7">
+                                        <p class="dayOfWeek">`+ twoDayMore() + `</p>
+                                    </div>
+                                    <div class="col-3">
+                                        <p class="detailsTemperature"><span class="nightTemperature">(`+ nightTemp[2] +`°) </span>` + tempTwoDay + `<span class="celciusTemperature">°C</span></p>
+                                        
+                                    </div>
+                                    <hr class="line">
+                                </div>
+                            </div>
+                        </div>
+                        `
                     }
                 })
             })
