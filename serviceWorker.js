@@ -14,7 +14,8 @@ const assets = [
   "/js/logout.js",
   "/images/back-arrow.png",
   "/images/plus-button.png",
-  "/images/x-button.png"
+  "/images/x-button.png",
+  "/images/back-arrow-white.png"
 ]
 
 self.addEventListener("install", installEvent => {
