@@ -8,4 +8,4 @@ Weather App created for the subject PSM.
 * Geolocation works
 * After logging in, the locations are saved 
 * Weather available for two days ahead
-* Pictures of the project are available here: [imgur.com](https://imgur.com/a/jhh5Qpb)
+* Pictures of the project are available here: [gallery](https://imgur.com/a/jhh5Qpb)
