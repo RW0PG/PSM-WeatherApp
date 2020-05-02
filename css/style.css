@@ -172,6 +172,113 @@ html, body {
     width: 30px;
     height: 30px;
   }
+
+  .detailsPlace{
+    background-color:rgb(32,32,32);;
+  }
+
+  #topLeftDetail {
+    top: 5%;
+    left: 5%;
+  }
+  
+  #placeId {
+    font-size: 45px;
+    font-weight: bold;
+    color:#dcdcdc;
+  }
+  
+  #fromTop {
+    padding-top: 5%;
+  }
+  
+  #mainCardDetails{
+    color: #dcdcdc;
+    border-radius: 10px;
+    padding: 3%;
+    margin: 8%;
+    
+  }
+  
+  .dayOfWeek{
+    padding-bottom: 3%;
+    padding-left: 8%;
+    font-size: 3.25vmax;
+    font-weight:650;
+    color:#dcdcdc;
+  }
+  
+  .detailsPlaces{
+    background-color:rgb(32,32,32);;
+  }
+  
+  #WeatherImages {
+    padding-top: 6%;
+  }
+  
+  .weatherIconSize{
+    width: 3.5vmax;
+    height: 3.5vmax;
+  }
+  
+  .weatherIconText{
+    padding-top: 3%;
+    font-size: 1vmax;
+    font-weight: 600;
+    color:#dcdcdc;
+  }
+  
+  .weatherIconSizeFromApi{
+    width: 8vmax;
+    height: 8vmax;
+  }
+  
+  .weatherIconTextValue{
+    font-size: 1.25vmax;
+    font-weight: 600;
+    color:#dcdcdc;
+  }
+  
+  .dateSpecific{
+    font-size: 25px;
+    margin-left: 20%;
+    /* padding-left: 60%; */
+    font-weight: bold;
+    color:#dcdcdc;
+  }
+  
+  .detailsTemperature{
+    padding-right: 3%;
+    padding-bottom: 3%;
+    font-size: 3vmax;
+    font-weight:650;
+    color:#dcdcdc;
+    /* text-align: right; */
+  }
+  
+  hr.line {
+    border: 1px solid #dcdcdc;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .nightTemperature {
+    padding-right: 1%;
+    padding-bottom: 1%;
+    font-size: 1.5vmax;
+    font-weight:650;
+    color:#dcdcdc;
+    /* text-align: right; */
+  }
+
+  .celciusTemperature {
+    padding-right: 1%;
+    padding-bottom: 1%;
+    font-size: 2vmax;
+    font-weight:650;
+    color:#dcdcdc;
+  }
   
   
   

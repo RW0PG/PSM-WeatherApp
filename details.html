@@ -10,13 +10,17 @@
     <link type="text/css" rel="stylesheet" href="css/style.css">
     <title>WeatherAPP</title>
   </head>
-  <body class="sth" onload="showDetails()">
+  <body class="detailsPlace" onload="showDetails()">
 
-    <div id="places"></div>
-
-    <a href="index.html">
-      <button id="btnBack" class="btn btn-primary" href="index.html">Back</button>
-    </a>
+    <div id="details">
+      <div class="container-fluid">
+        <div id="fromTop">
+          <a href="index.html">
+            <img src="images/back-arrow-white.png" style="width: 60px; height: 60px">
+           </a>
+        </div>
+      </div>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
